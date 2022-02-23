@@ -7,6 +7,7 @@ const API = "http://localhost:8088"
 export const EmployeeList = () => {
     const [employees, setEmployees] = useState([])
     const [totalEmployeeMessage, updateMessage] = useState("")
+    const history = useHistory()
 
     useEffect(
         () => {
@@ -19,7 +20,6 @@ export const EmployeeList = () => {
         []
     )
 
-    const history = useHistory()
 
     return (
         <>

@@ -22,9 +22,9 @@ export const EmployeeForm = () => {
         }
 
         return fetch("http://localhost:8088/employees", fetchOption)
-                .then(() => {
-                    history.push("/employees")
-                })
+            .then(() => {
+                history.push("/employees")
+            })
     }
 
     useEffect(
@@ -50,7 +50,7 @@ export const EmployeeForm = () => {
                         className="form-control"
                         placeholder="Full Name"
                         onChange={(evt) => {
-                            const copy = {...employee}
+                            const copy = { ...employee }
                             copy.name = evt.target.value
                             updateEmployee(copy)
                         }} />
@@ -61,18 +61,19 @@ export const EmployeeForm = () => {
                     <label htmlFor="location">Location: </label>
                     <select name="location"
                         onChange={(evt) => {
-                            const copy = {...employee}
+                            const copy = { ...employee }
                             copy.locationId = parseInt(evt.target.value)
                             updateEmployee(copy)
                         }}
-                        defaultValue="0">
+                        defaultValue="0"
+                    >
                         <option value="0" disabled hidden>Select Location...</option>
                         {
                             locations.map(
                                 (location) => {
                                     return (
                                         <option key={`location--${location.id}`} value={`${location.id}`}>
-                                        {`${location.name}`}
+                                            {`${location.name}`}
                                         </option>
                                     )
                                 }
@@ -85,13 +86,13 @@ export const EmployeeForm = () => {
                 <div className="form-group">
                     <label htmlFor="managerStatus">Manager: </label>
                     <select name="managerStatus"
-                    onChange={(evt) => {
-                        const copy = {...employee}
-                        copy.managerStatus = evt.target.value === "true"
-                        updateEmployee(copy)
-                    }}
-                    defaultValue="0">
-                    <option value="0" disabled hidden>Select Manager Status...</option>
+                        onChange={(evt) => {
+                            const copy = { ...employee }
+                            copy.managerStatus = evt.target.value === "true"
+                            updateEmployee(copy)
+                        }}
+                        defaultValue="0">
+                        <option value="0" disabled hidden>Select Manager Status...</option>
                         <option value={true}>
                             Yes
                         </option>
@@ -105,13 +106,13 @@ export const EmployeeForm = () => {
                 <div className="form-group">
                     <label htmlFor="fullTimeStatus">Full-Time: </label>
                     <select name="fullTimeStatus"
-                    onChange={(evt) => {
-                        const copy = {...employee}
-                        copy.fullTimeStatus = evt.target.value === "false"
-                        updateEmployee(copy)
-                    }}
-                    defaultValue="0">
-                    <option value="0" disabled hidden>Select Full-Time Status...</option>
+                        onChange={(evt) => {
+                            const copy = { ...employee }
+                            copy.fullTimeStatus = evt.target.value === "false"
+                            updateEmployee(copy)
+                        }}
+                        defaultValue="0">
+                        <option value="0" disabled hidden>Select Full-Time Status...</option>
                         <option value={true}>
                             Yes
                         </option>
@@ -130,7 +131,7 @@ export const EmployeeForm = () => {
                         className="form-control"
                         placeholder="Hourly Rate"
                         onChange={(evt) => {
-                            const copy = {...employee}
+                            const copy = { ...employee }
                             copy.rate = parseInt(evt.target.value)
                             updateEmployee(copy)
                         }} />
