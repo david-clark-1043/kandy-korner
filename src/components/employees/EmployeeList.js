@@ -9,17 +9,25 @@ export const EmployeeList = () => {
     const [totalEmployeeMessage, updateMessage] = useState("")
     const history = useHistory()
 
+    const fetchEmployees = () => {
+        return fetch(`${API}/employees?_expand=location`)
+            .then(res => res.json())
+            .then((employeeArray) => {
+                setEmployees(employeeArray)
+            })
+    }
+
     useEffect(
-        () => {
-            fetch(`${API}/employees?_expand=location`)
-                .then(res => res.json())
-                .then((employeeArray) => {
-                    setEmployees(employeeArray)
-                })
-        },
+        fetchEmployees,
         []
     )
 
+    const deleteEmployee = (id) => {
+        fetch(`http://localhost:8088/employees/${id}`, {
+            method: "DELETE"
+        })
+            .then(fetchEmployees)
+    }
 
     return (
         <>
@@ -30,9 +38,15 @@ export const EmployeeList = () => {
                 employees.map(
                     (employeeObject) => {
                         return (<div key={`employee--${employeeObject.id}`}>
-                            <p>{employeeObject.name}</p>
-                            <p>{employeeObject.locationId}</p>
-                            <p>{employeeObject.location.name}</p>
+                            <div>{employeeObject.name}</div>
+                            <div>{employeeObject.locationId}</div>
+                            <div>{employeeObject.location.name}</div>
+                            <button
+                                onClick={() => {
+                                    deleteEmployee(employeeObject.id)
+                                }}>
+                                Fire Employee
+                            </button>
                         </div>
                         )
                     }

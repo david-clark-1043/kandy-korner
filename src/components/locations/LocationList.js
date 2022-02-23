@@ -4,7 +4,7 @@ const API = "http://localhost:8088"
 
 export const LocationList = () => {
     const [locations, setLocations] = useState([])
-    const [totallocationMessage, updateMessage] = useState("")
+    
 
     useEffect(
         () => {
