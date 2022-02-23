@@ -8,7 +8,7 @@ export const ProductList = () => {
 
     useEffect(
         () => {
-            fetch(`${API}/products?_expand=productType`)
+            fetch(`${API}/products?_expand=productType&_sort=productTypeId`)
                 .then(res => res.json())
                 .then((productArray) => {
                     setProducts(productArray)
