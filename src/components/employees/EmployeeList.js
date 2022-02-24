@@ -1,33 +1,25 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
+import { deleteEmployee, fetchEmployees } from "../ApiManager"
 
 
 const API = "http://localhost:8088"
 
 export const EmployeeList = () => {
     const [employees, setEmployees] = useState([])
-    const [totalEmployeeMessage, updateMessage] = useState("")
     const history = useHistory()
 
-    const fetchEmployees = () => {
-        return fetch(`${API}/employees?_expand=location`)
-            .then(res => res.json())
-            .then((employeeArray) => {
-                setEmployees(employeeArray)
-            })
+    const getEmployees = () => {
+        return fetchEmployees()
+                .then((employeeArray) => {
+                    setEmployees(employeeArray)
+                })
     }
 
     useEffect(
-        fetchEmployees,
+        getEmployees,
         []
     )
-
-    const deleteEmployee = (id) => {
-        fetch(`http://localhost:8088/employees/${id}`, {
-            method: "DELETE"
-        })
-            .then(fetchEmployees)
-    }
 
     return (
         <>
@@ -44,6 +36,7 @@ export const EmployeeList = () => {
                             <button
                                 onClick={() => {
                                     deleteEmployee(employeeObject.id)
+                                        .then(getEmployees)
                                 }}>
                                 Fire Employee
                             </button>

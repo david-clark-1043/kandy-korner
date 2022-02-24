@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react"
-import { useHistory } from "react-router-dom"
-import { useParams } from "react-router-dom"
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { fetchCustomerPurchases } from "../ApiManager";
+import "./MyOrders.css";
 
 export const MyOrders = () => {
     const [purchases, setPurchases] = useState([])
@@ -10,33 +12,42 @@ export const MyOrders = () => {
 
     useEffect(
         () => {
-            fetch(`http://localhost:8088/customers/${customerId}`)
-                .then(res => res.json())
-                .then(setCustomer)
-        },
-        [customerId]  // Above function runs when the value of customerId change
-    )
-
-
-
-    useEffect(
-        () => {
-            fetch(`http://localhost:8088/purchases?customerId=${customerId}&_expand=product`)
-                .then(res => res.json())
+            fetchCustomerPurchases(customerId)
                 .then(setPurchases)
         },
         [customerId]  // Above function runs when the value of customerId change
     )
 
+    useEffect(
+        () => {
+            const customerCopy = JSON.parse(JSON.stringify(customer))
+
+        },
+        [purchases]
+    )
+
     return (
         <>
-            <div key="orderList">
-                {
-                    purchases.map((purchase) => {
-                        return <div key={`purchase--${purchase.id}`}>{purchase.product.name}</div>
-                    })
-                }
-            </div>
+            <table className="orderTable">
+                <caption>Total Purchases</caption>
+                <thead>
+                    <tr>
+                        <th>Candy</th>
+                        <th>Quantity</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        purchases.map((purchase) => {
+                            return (<tr key={`purchase--${purchase.id}`}>
+                                <td>{purchase.product.name}</td>
+                                <td>{purchase.product.price}</td>
+                            </tr>)
+                        })
+                    }
+                </tbody>
+            </table>
         </>
     )
 }

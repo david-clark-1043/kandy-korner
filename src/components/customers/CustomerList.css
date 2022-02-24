@@ -1,0 +1,15 @@
+.customerTable {
+    border-collapse: collapse;
+    width: 50%;
+    margin: 0 auto;
+    font-size: 1.5em;
+}
+
+.customerTable td {
+    border: 2px solid black;
+    padding: .2em .5em;
+}
+/* .customerTable > tbody > tr > td {
+    border: 2px solid black;
+    padding: .2em .5em;
+} */

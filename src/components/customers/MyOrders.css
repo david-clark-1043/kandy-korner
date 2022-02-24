@@ -1,0 +1,11 @@
+.orderTable {
+    border-collapse: collapse;
+    width: 50%;
+    margin: 0 auto;
+    font-size: 1.5em;
+}
+
+.orderTable td {
+    border: 2px dashed blue;
+    padding: .2em .5em;
+}

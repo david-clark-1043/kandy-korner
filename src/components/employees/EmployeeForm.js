@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom";
+import { fetchLocations, sendEmployee } from "../ApiManager";
 
 const API = "http://localhost:8088"
 export const EmployeeForm = () => {
@@ -13,24 +14,15 @@ export const EmployeeForm = () => {
         evt.preventDefault()
         const newEmployee = JSON.parse(JSON.stringify(employee))
 
-        const fetchOption = {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(newEmployee)
-        }
-
-        return fetch("http://localhost:8088/employees", fetchOption)
-            .then(() => {
-                history.push("/employees")
-            })
+        return sendEmployee(newEmployee)
+                .then(() => {
+                    history.push("/employees")
+                })
     }
 
     useEffect(
         () => {
-            fetch(`${API}/locations`)
-                .then(res => res.json())
+            fetchLocations()
                 .then((locationArray) => {
                     setLocations(locationArray)
                 })
@@ -108,7 +100,7 @@ export const EmployeeForm = () => {
                     <select name="fullTimeStatus"
                         onChange={(evt) => {
                             const copy = { ...employee }
-                            copy.fullTimeStatus = evt.target.value === "false"
+                            copy.fullTimeStatus = evt.target.value === "true"
                             updateEmployee(copy)
                         }}
                         defaultValue="0">
