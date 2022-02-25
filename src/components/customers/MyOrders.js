@@ -18,39 +18,43 @@ export const MyOrders = () => {
     )
 
     const modifiedPurchases = purchases.reduce((purchaseWithCount, currentPurchase, currentIndex) => {
-        if (currentPurchase.product?.id in purchaseWithCount[0]) {
-            const indexLookup = purchaseWithCount[0][currentPurchase.product?.id]["productIndex"]
-            purchaseWithCount[0][currentPurchase.product.id]["count"]++
-            const count = purchaseWithCount[0][currentPurchase.product?.id].count
-            const totalPrice = count * purchaseWithCount[0][currentPurchase.product?.id].price
-            const formattedPrice = totalPrice.toLocaleString("en-US",
-                                             { style: 'currency', currency: 'USD' })
-            purchaseWithCount[indexLookup] = (<tr key={`product--${currentPurchase.product.id}`}>
-                                                <td>{purchaseWithCount[0][currentPurchase.product?.id].name}</td>
-                                                <td>{count}</td>
-                                                <td>{formattedPrice}</td>
-                                            </tr>)
-        } else {
-            const newProduct = {
-                id: currentPurchase.product?.id,
-                name: currentPurchase.product?.name,
-                count: 1,
-                price: currentPurchase.product?.price,
-                productIndex: purchaseWithCount.length
+        if(currentPurchase.product) {
+            if (currentPurchase.product.id in purchaseWithCount[0]) {
+                const indexLookup = purchaseWithCount[0][currentPurchase.product.id]["productIndex"]
+                purchaseWithCount[0][currentPurchase.product.id]["count"]++
+                const count = purchaseWithCount[0][currentPurchase.product?.id].count
+                const totalPrice = count * purchaseWithCount[0][currentPurchase.product.id].price
+                const formattedPrice = totalPrice.toLocaleString("en-US",
+                                                 { style: 'currency', currency: 'USD' })
+                purchaseWithCount[indexLookup] = (<tr key={`product--${currentPurchase.product.id}`}>
+                                                    <td>{purchaseWithCount[0][currentPurchase.product.id].name}</td>
+                                                    <td>{count}</td>
+                                                    <td>{formattedPrice}</td>
+                                                </tr>)
+            } else {
+                const newProduct = {
+                    id: currentPurchase.product.id,
+                    name: currentPurchase.product.name,
+                    count: 1,
+                    price: currentPurchase.product.price,
+                    productIndex: purchaseWithCount.length
+                }
+                purchaseWithCount[0][newProduct.id] = newProduct
+                purchaseWithCount.push(<tr key={`product--${currentPurchase.product.id}`}>
+                    <td>
+                        {newProduct.name}
+                    </td>
+                    <td>{newProduct.count}</td>
+                    <td>{newProduct.price}</td>
+                </tr>);
             }
-            purchaseWithCount[0][newProduct.id] = newProduct
-            purchaseWithCount.push(<tr key={`product--${currentPurchase.product?.id}`}>
-                <td>
-                    {newProduct.name}
-                </td>
-                <td>{newProduct.count}</td>
-                <td>{newProduct.price}</td>
-            </tr>);
+            if(currentIndex === purchases.length - 1){
+                purchaseWithCount.shift()
+            }
+            return purchaseWithCount
+        } else {
+
         }
-        if(currentIndex === purchases.length - 1){
-            purchaseWithCount.shift()
-        }
-        return purchaseWithCount
     }, [{}])
 
     return (
@@ -61,7 +65,7 @@ export const MyOrders = () => {
                     <tr>
                         <th>Candy</th>
                         <th>Quantity</th>
-                        <th>Price/Unit</th>
+                        <th>Total Cost</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -9,6 +9,12 @@
     border: 2px dashed blue;
     padding: .2em .5em;
 }
+.orderTable th {
+    min-width: 6em;
+    text-align: center;
+    padding: .2em;
+}
+
 div {
     margin: 1em;
 }

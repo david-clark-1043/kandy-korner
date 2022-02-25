@@ -25,6 +25,11 @@ export const fetchPurchases = () => {
         .then(res => res.json())
 }
 
+export const fetchProducts = () => {
+    return fetch(`${API}/products?_expand=productType&_sort=productTypeId`)
+    .then(res => res.json())
+}
+
 export const deleteEmployee = (id) => {
     return fetch(`${API}/employees/${id}`, {
         method: "DELETE"
@@ -45,3 +50,15 @@ export const sendEmployee = (newEmployee) => {
         .then(res => res.json())
 }
 
+export const sendPurchase = (newPurchase) => {
+    const fetchOption = {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify(newPurchase)
+    }
+
+    return fetch("http://localhost:8088/purchases", fetchOption)
+        .then(res => res.json())
+}

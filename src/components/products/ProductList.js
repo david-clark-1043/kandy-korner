@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { fetchProducts, sendPurchase } from "../ApiManager";
 import "./ProductList.css";
 
 const API = "http://localhost:8088"
@@ -9,8 +10,7 @@ export const ProductList = () => {
 
     useEffect(
         () => {
-            fetch(`${API}/products?_expand=productType&_sort=productTypeId`)
-                .then(res => res.json())
+            fetchProducts()
                 .then((productArray) => {
                     setProducts(productArray)
                 })
@@ -25,18 +25,10 @@ export const ProductList = () => {
         }
         //setPurchase(copy)
 
-        const fetchOption = {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(newPurchase)
-        }
-
-        return fetch("http://localhost:8088/purchases", fetchOption)
-            .then(() => {
-                //history.push("/employees")
-            })
+        return sendPurchase(newPurchase)
+                    .then(() => {
+                        //history.push("/employees")
+                    })
     }
 
     return (
